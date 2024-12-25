@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FaMoon, FaSun, FaBars, FaTimes } from 'react-icons/fa';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import Search from '../search/Search';
+import { ThemeUserContext } from '../../context/ThemeContext';
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  // const [isDarkMode, setIsDarkMode] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const { drakMode, setIsDrakMode } = useContext(ThemeUserContext);
+
+  console.log(drakMode);
+
   const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+
+
 
   return (
     <div className="shadow-md">
@@ -70,14 +76,14 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-4">
           <Search />
           <div
-            className={`w-14 h-8 flex items-center bg-[#E8E8EA] rounded-full p-1 cursor-pointer transition-colors duration-300 ${isDarkMode ? 'justify-end' : 'justify-start'
+            className={`w-14 h-8 flex items-center bg-[#E8E8EA] rounded-full p-1 cursor-pointer transition-colors duration-300 ${drakMode ? 'justify-end' : 'justify-start'
               }`}
           >
             <button
-              onClick={toggleDarkMode}
+              onClick={() => setIsDrakMode((darkMode) => !darkMode)}
               className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center transition-transform duration-300"
             >
-              {isDarkMode ? (
+              {drakMode ? (
                 <FaMoon className="text-gray-500" />
               ) : (
                 <FaSun className="text-yellow-500" />
@@ -154,10 +160,10 @@ const Navbar = () => {
                 }`}
             >
               <button
-                onClick={toggleDarkMode}
+                onClick={() => setIsDrakMode((darkMode) => !darkMode)}
                 className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center transition-transform duration-300"
               >
-                {isDarkMode ? (
+                {drakMode ? (
                   <FaMoon className="text-gray-500" />
                 ) : (
                   <FaSun className="text-yellow-500" />

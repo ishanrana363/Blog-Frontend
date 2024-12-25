@@ -34,40 +34,42 @@ const ManageBlog = () => {
   }
 
   return (
-    <div>
-      <motion.div
-        className="grid lg:grid-cols-3 grid-cols-1 gap-8"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {blogData.slice(0, showBlogs).map((blog, index) => (
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.2 }}
-          >
-            <BlogCard blog={blog} />
-          </motion.div>
-        ))}
-      </motion.div>
-      <div>
-        {showBlogs < blogData.length && (
-          <motion.div
-            className="my-10 mb-5"
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.1 }}
-          >
-            <button
-              onClick={handleMoreBlog}
-              className="block mx-auto px-4 rounded-2xl bg-[#4B6BFB] text-white font-bold py-2"
+    <div className='py-10' >
+      <div className='w-11/12 mx-auto ' >
+        <motion.div
+          className="grid lg:grid-cols-3 grid-cols-1 gap-8"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {blogData.slice(0, showBlogs).map((blog, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.2 }}
             >
-              View More
-            </button>
-          </motion.div>
-        )}
+              <BlogCard blog={blog} />
+            </motion.div>
+          ))}
+        </motion.div>
+        <div>
+          {showBlogs < blogData.length && (
+            <motion.div
+              className="my-10 mb-5"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.1 }}
+            >
+              <button
+                onClick={handleMoreBlog}
+                className="block mx-auto px-4 rounded-2xl bg-[#4B6BFB] text-white font-bold py-2"
+              >
+                View More
+              </button>
+            </motion.div>
+          )}
+        </div>
       </div>
     </div>
   );

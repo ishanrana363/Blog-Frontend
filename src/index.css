@@ -6,3 +6,8 @@
 body{
     font-family: "Inter", serif;
 }
+
+
+.dark{
+    @apply bg-gray-900 text-white
+}
