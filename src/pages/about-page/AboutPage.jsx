@@ -1,5 +1,6 @@
 import React from 'react'
 import Team from '../team/Team'
+import SignUpForm from '../home-pages/SignUpFrom'
 
 const AboutPage = () => {
     return (
@@ -39,6 +40,10 @@ const AboutPage = () => {
 
             <div className='mt-10' >
                 <Team></Team>
+            </div>
+
+            <div className='mt-10' >
+                <SignUpForm></SignUpForm>
             </div>
 
         </div>
