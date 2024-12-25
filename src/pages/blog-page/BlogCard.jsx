@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 const BlogCard = ({ blog }) => {
     return (
         <div className='border rounded-lg h-[500px] p-4 bg-white shadow-md'>
-            <Link to={`/blogs/${blog?._id}`}>
+            <Link to={`/blog-details/${blog?._id}`}>
                 <img
                     src={blog.image || 'https://via.placeholder.com/150'}
                     alt={`Thumbnail for ${blog.title}`}
@@ -14,7 +14,7 @@ const BlogCard = ({ blog }) => {
             </Link>
             <div>
                 <p className='bg-secondary/5 inline-block text-sm text-secondary px-3 py-1 rounded-md mb-3'>Technology</p>
-                <Link to={`/blogs/${blog?._id}`}>
+                <Link to={`/blog-details/${blog?._id}`}>
                     <h3 className='text-xl font-semibold text-gray-800 hover:text-secondary mb-2'>{blog.title}</h3>
                 </Link>
                 <p className='text-gray-500'>

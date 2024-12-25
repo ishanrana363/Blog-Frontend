@@ -6,6 +6,7 @@ import ManageBlog from './../pages/blog-page/ManageBlog';
 import BlogList from "../pages/blog-page/BlogList";
 import BlogDetails from "../pages/blog-page/BlogDetails";
 import UpdateBlog from "../pages/blog-page/UpdateBlog";
+import AboutPage from "../pages/about-page/AboutPage";
 
 export const router = createBrowserRouter([
     {
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/about",
-                element: <h1>About</h1>
+                element: <AboutPage></AboutPage>
             },
             {
                 path: "/contact",
