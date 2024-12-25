@@ -56,7 +56,7 @@ const AddBlog = () => {
       <Helmet>
         <title>Add New Blog</title>
       </Helmet>
-      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
+      <div className="w-[80%]  bg-white p-6 rounded-lg shadow-lg">
         <motion.h2
           className="text-2xl font-bold text-gray-800 text-center mb-6"
           initial={{ opacity: 0, x: -50 }}
@@ -101,7 +101,7 @@ const AddBlog = () => {
               id="description"
               name="description"
               {...register("description", { required: true })}
-              rows="3"
+              rows="5"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
               placeholder="Enter description"
             ></textarea>
