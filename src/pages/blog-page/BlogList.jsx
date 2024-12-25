@@ -7,26 +7,7 @@ import { motion } from 'framer-motion'; // Import Framer Motion
 import Loader from '../../components/loader/Loader';
 
 const BlogList = () => {
-  const blogs = [
-    {
-      id: 1,
-      authorName: 'John Doe',
-      authorImage: 'https://via.placeholder.com/50',
-      viewBlogLink: '#',
-    },
-    {
-      id: 2,
-      authorName: 'Jane Smith',
-      authorImage: 'https://via.placeholder.com/50',
-      viewBlogLink: '#',
-    },
-    {
-      id: 3,
-      authorName: 'Alex Brown',
-      authorImage: 'https://via.placeholder.com/50',
-      viewBlogLink: '#',
-    },
-  ];
+
 
   const handleUpdate = (id) => {
     alert(`Updating blog with ID: ${id}`);
