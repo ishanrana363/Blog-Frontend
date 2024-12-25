@@ -5,17 +5,15 @@ import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion'; // Import Framer Motion
 import Loader from '../../components/loader/Loader';
+import { deleteAlert } from '../../helper/deleteAlert';
+import Swal from 'sweetalert2';
 
 const BlogList = () => {
 
 
-  const handleUpdate = (id) => {
-    alert(`Updating blog with ID: ${id}`);
-  };
 
-  const handleDelete = (id) => {
-    alert(`Deleting blog with ID: ${id}`);
-  };
+
+  
 
   const { data: allBlogData = [], refetch, isLoading } = useQuery({
     queryKey: ['allBlogData'],
@@ -29,6 +27,30 @@ const BlogList = () => {
     return <div><Loader></Loader> </div>;
   }
   window.scrollTo(0, 0);
+
+  const handleDelete = async (id) => {
+    try {
+      let resp = await deleteAlert();
+      if (resp.isConfirmed) {
+        let res = await axios.delete(`https://blog-backend-blush-theta.vercel.app/api/v1/delete-blog/${id}`);
+        if (res) {
+          Swal.fire({
+            title: 'Blog deleted successfully!',
+            icon: 'success',
+            confirmButtonText: 'Cool'
+          })
+          refetch();
+        }
+      }
+    } catch (error) {
+      Swal.fire({
+        title: 'Error deleting blog!',
+        icon: 'error',
+        confirmButtonText: 'Try Again'
+      });
+    }
+
+  };
 
   return (
     <div className="overflow-x-auto w-full py-10">
@@ -69,7 +91,7 @@ const BlogList = () => {
                 <div className="flex items-center space-x-3 mt-4">
                   <div>
                     <button
-                      onClick={() => handleUpdate(blog.id)}
+                      // onClick={() => handleUpdate(blog._id)}
                       className="text-blue-500 hover:text-blue-700"
                     >
                       <FaEdit />
@@ -77,7 +99,7 @@ const BlogList = () => {
                   </div>
                   <div>
                     <button
-                      onClick={() => handleDelete(blog.id)}
+                      onClick={() => handleDelete(blog._id)}
                       className="text-red-500 hover:text-red-700"
                     >
                       <FaTrash />
