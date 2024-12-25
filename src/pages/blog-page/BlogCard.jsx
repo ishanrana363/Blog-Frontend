@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const BlogCard = ({ blog }) => {
     return (
-        <div className='border rounded-lg p-4 bg-white shadow-md'>
+        <div className='border rounded-lg h-[500px] p-4 bg-white shadow-md'>
             <Link to={`/blogs/${blog?._id}`}>
                 <img
                     src={blog.image || 'https://via.placeholder.com/150'}
@@ -22,12 +22,12 @@ const BlogCard = ({ blog }) => {
                 </p>
                 <div className='mt-4 flex items-center'>
                     <img
-                        src={blog.author?.image || 'https://via.placeholder.com/50'}
-                        alt={`Author: ${blog.author?.name || 'Unknown'}`}
+                        src={blog.author?.authorImage || 'https://via.placeholder.com/50'}
+                        alt={`Author: ${blog.author?.authorName || 'Unknown'}`}
                         className='size-10 rounded-full mr-3'
                     />
                     <div>
-                        <p className='text-sm text-gray-600'>{blog.author?.name || 'Unknown Author'}</p>
+                        <p className='text-sm text-gray-600'>{blog.author?.authorName || 'Unknown Author'}</p>
                         <p className='text-xs text-gray-400'>
                             {blog?.date
                                 ? <span>{new Date(blog.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -47,8 +47,8 @@ BlogCard.propTypes = {
         title: PropTypes.string.isRequired,
         description: PropTypes.string,
         author: PropTypes.shape({
-            image: PropTypes.string,
-            name: PropTypes.string.isRequired,
+            authorImage: PropTypes.string,
+            authorName: PropTypes.string.isRequired,
         }),
         date: PropTypes.string,
         createdAt: PropTypes.string.isRequired,
