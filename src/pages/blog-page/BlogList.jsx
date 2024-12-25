@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEdit, FaTrash } from 'react-icons/fa'; // Import React Icons for Edit and Delete
 import { useQuery } from 'react-query';
 import { Link } from 'react-router-dom';
@@ -9,11 +9,7 @@ import { deleteAlert } from '../../helper/deleteAlert';
 import Swal from 'sweetalert2';
 
 const BlogList = () => {
-
-
-
-
-  
+  const [searchTerm, setSearchTerm] = useState(""); // State to manage search term
 
   const { data: allBlogData = [], refetch, isLoading } = useQuery({
     queryKey: ['allBlogData'],
@@ -24,7 +20,7 @@ const BlogList = () => {
   });
 
   if (isLoading) {
-    return <div><Loader></Loader> </div>;
+    return <div><Loader></Loader></div>;
   }
   window.scrollTo(0, 0);
 
@@ -38,7 +34,7 @@ const BlogList = () => {
             title: 'Blog deleted successfully!',
             icon: 'success',
             confirmButtonText: 'Cool'
-          })
+          });
           refetch();
         }
       }
@@ -49,11 +45,27 @@ const BlogList = () => {
         confirmButtonText: 'Try Again'
       });
     }
-
   };
+
+  // Filter blogs based on search term
+  const filteredBlogs = allBlogData.filter(blog =>
+    blog.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    blog.author?.authorName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="overflow-x-auto w-full py-10">
+      {/* Search Bar */}
+      <div className="mb-5 ">
+        <input
+          type="text"
+          placeholder="Search by Title or Author Name"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-1/3 float-end mb-10  px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+      </div>
+
       <table className="min-w-full table-auto bg-white border border-gray-200 rounded-lg shadow-lg">
         <thead>
           <tr className="bg-gray-100">
@@ -65,7 +77,7 @@ const BlogList = () => {
           </tr>
         </thead>
         <tbody>
-          {allBlogData.map((blog, index) => (
+          {filteredBlogs.map((blog, index) => (
             <motion.tr
               key={blog.id}
               className="border-b hover:bg-gray-50"
@@ -83,19 +95,18 @@ const BlogList = () => {
                 />
               </td>
               <td className="py-2 px-4">
-                <Link to={`/blog-details/${blog?._id}`} href={blog.viewBlogLink} className="text-blue-500 hover:underline">
+                <Link to={`/blog-details/${blog?._id}`} className="text-blue-500 hover:underline">
                   View Blog
                 </Link>
               </td>
               <td className="py-2 px-4 flex space-x-2">
                 <div className="flex items-center space-x-3 mt-4">
                   <div>
-                    <button
-                      // onClick={() => handleUpdate(blog._id)}
-                      className="text-blue-500 hover:text-blue-700"
-                    >
-                      <FaEdit />
-                    </button>
+                    <Link to={`/blog-update/${blog?._id}`}>
+                      <button className="text-blue-500 hover:text-blue-700">
+                        <FaEdit />
+                      </button>
+                    </Link>
                   </div>
                   <div>
                     <button

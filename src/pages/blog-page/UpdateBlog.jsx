@@ -4,9 +4,21 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import Loader from "../../components/loader/Loader";
 
 const UpdateBlog = () => {
+    const { id } = useParams();
     const [loading, setLoading] = useState(false);
+    const { data: singleBlogData = [], refetch, isLoading } = useQuery({
+        queryKey: ['singleBlogData', id],
+        queryFn: async () => {
+            const res = await axios.get(`https://blog-backend-blush-theta.vercel.app/api/v1/single-blogs/${id}`);
+            return res.data.data;
+        }
+    });
+
     const {
         register,
         handleSubmit,
@@ -27,34 +39,39 @@ const UpdateBlog = () => {
         console.log(blogData);
         try {
             setLoading(true);
-            let res = await axios.post(`https://blog-backend-blush-theta.vercel.app/api/v1/blog-post`, blogData);
+            let res = await axios.put(`https://blog-backend-blush-theta.vercel.app/api/v1/update-blog/${id}`, blogData);
             setLoading(false);
             if (res) {
                 Swal.fire({
                     icon: "success",
-                    title: "Blog added successfully!",
+                    title: "Blog update successfully!",
                     showConfirmButton: false,
                     timer: 1500,
                 });
                 // Reset form
-                reset();
+                refetch();
             }
         } catch (error) {
             setLoading(false);
             console.log(error);
             Swal.fire({
                 icon: "error",
-                title: "Failed to add blog",
+                title: "Failed to update blog",
                 showConfirmButton: false,
                 timer: 1500,
             });
         }
     };
+    if (isLoading) {
+        return <div>
+            <Loader></Loader>
+        </div>
+    }
 
     return (
         <div className="my-6 flex items-center justify-center">
             <Helmet>
-                <title>Add New Blog</title>
+                <title>Update Blog</title>
             </Helmet>
             <div className="w-[80%]  bg-white p-6 rounded-lg shadow-lg">
                 <motion.h2
@@ -63,7 +80,7 @@ const UpdateBlog = () => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    Add New Blog
+                    Update Blog
                 </motion.h2>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     {/* Title */}
@@ -81,6 +98,7 @@ const UpdateBlog = () => {
                             {...register("title", { required: true })}
                             id="title"
                             name="title"
+                            defaultValue={singleBlogData?.title}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
                             placeholder="Enter title"
                         />
@@ -101,12 +119,18 @@ const UpdateBlog = () => {
                             id="description"
                             name="description"
                             {...register("description", { required: true })}
+                            defaultValue={singleBlogData?.description}
                             rows="5"
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
                             placeholder="Enter description"
                         ></textarea>
                         {errors.description && <p className="text-red-500 text-sm">Description is required</p>}
                     </motion.div>
+                    <div className="avatar offline">
+                        <div className="w-24 rounded-full">
+                            <img src={singleBlogData?.image} />
+                        </div>
+                    </div>
 
                     {/* Image */}
                     <motion.div
@@ -122,6 +146,7 @@ const UpdateBlog = () => {
                             type="text"
                             id="image"
                             {...register("image", { required: true })}
+                            defaultValue={singleBlogData?.image}
                             name="image"
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
                             placeholder="Enter image URL"
@@ -143,6 +168,7 @@ const UpdateBlog = () => {
                             type="text"
                             id="authorName"
                             {...register("authorName", { required: true })}
+                            defaultValue={singleBlogData?.author?.authorName}
                             name="authorName"
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
                             placeholder="Enter author name"
@@ -151,6 +177,11 @@ const UpdateBlog = () => {
                     </motion.div>
 
                     {/* Author Image */}
+                    <div className="avatar offline">
+                        <div className="w-24 rounded-full">
+                            <img src={singleBlogData?.author?.authorImage} />
+                        </div>
+                    </div>
                     <motion.div
                         className="mb-4"
                         initial={{ opacity: 0, x: -50 }}
@@ -164,6 +195,7 @@ const UpdateBlog = () => {
                             type="url"
                             id="authorImage"
                             {...register("authorImage", { required: true })}
+                            defaultValue={singleBlogData?.author?.authorImage}
                             name="authorImage"
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-secondary focus:border-secondary"
                             placeholder="Enter author image URL"
