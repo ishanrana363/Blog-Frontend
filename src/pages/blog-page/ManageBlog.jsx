@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import Loader from '../../components/loader/Loader';
 
 const ManageBlog = () => {
   const [showBlogs, setShowBlogs] = useState(6);
@@ -27,7 +28,9 @@ const ManageBlog = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>
+      <Loader></Loader>
+    </div>;
   }
 
   return (

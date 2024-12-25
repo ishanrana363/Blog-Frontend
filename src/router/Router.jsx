@@ -2,11 +2,12 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from './../layout/Layout';
 import Home from "../pages/home-pages/Home";
 import AddBlog from './../pages/blog-page/AddBlog';
-import ManageBlog from './../pages/blog-page/ManageBlog';
 import BlogList from "../pages/blog-page/BlogList";
 import BlogDetails from "../pages/blog-page/BlogDetails";
 import UpdateBlog from "../pages/blog-page/UpdateBlog";
 import AboutPage from "../pages/about-page/AboutPage";
+import ContactPage from "../pages/contact-page/ContactPage";
+import AllBlogListPage from "../pages/all-blog/AllBlogListPage";
 
 export const router = createBrowserRouter([
     {
@@ -23,7 +24,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/contact",
-                element: <h1>Contact</h1>
+                element: <ContactPage></ContactPage>
             },
             {
                 path : "add-new-blog",
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
             {
                 path : "blog-update/:id",
                 element : <UpdateBlog></UpdateBlog>
+            },
+            {
+                path : "blogs",
+                element : <AllBlogListPage></AllBlogListPage>
             }
         ]
     }
