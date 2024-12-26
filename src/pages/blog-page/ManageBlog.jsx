@@ -1,13 +1,15 @@
 import BlogCard from './BlogCard';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import Loader from '../../components/loader/Loader';
+import { BlogContext } from '../../context/BlogProvider';
 
 const ManageBlog = () => {
   const [showBlogs, setShowBlogs] = useState(6);
-  const [searchTerm] = useState(''); // TODO: Use Blog Context
+  const {searchTearm} = useContext(BlogContext)
+  console.log(searchTearm)
 
   const { data: blogData = [], refetch, isLoading } = useQuery({
     queryKey: ['blogData'],
@@ -18,9 +20,9 @@ const ManageBlog = () => {
   });
 
   const filteredBlogs = blogData.filter(blog =>
-    blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    blog.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    blog.author.name.toLowerCase().includes(searchTerm.toLowerCase())
+    (blog.title?.toLowerCase() || "").includes(searchTearm.toLowerCase()) ||
+    (blog.description?.toLowerCase() || "").includes(searchTearm.toLowerCase()) ||
+    (blog.author?.authorName?.toLowerCase() || "").includes(searchTearm.toLowerCase())
   );
 
   const handleMoreBlog = () => {
@@ -42,7 +44,7 @@ const ManageBlog = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {blogData.slice(0, showBlogs).map((blog, index) => (
+          {filteredBlogs.slice(0, showBlogs).map((blog, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: -50 }}
